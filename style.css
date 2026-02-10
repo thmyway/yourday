@@ -1,21 +1,24 @@
 body {
-  font-family: sans-serif;
-  background: #111;
-  color: #fff;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  padding: 0 10px;
+  background: #111;
+  color: #fff;
+  min-height: 100vh;
+  margin: 0;
 }
 
 .card {
   position: relative;
-  width: 320px;
-  height: 480px;
+  width: 100%;
+  max-width: 480px; /* максимум на широких экранах */
+  aspect-ratio: 3 / 4; /* сохраняет форму карты */
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+  margin-bottom: 20px;
 }
 
 /* видео-фон */
@@ -27,7 +30,7 @@ body {
   object-fit: cover;
 }
 
-/* затемнение поверх видео */
+/* затемнение поверх видео для читаемости */
 .card::before {
   content: "";
   position: absolute;
@@ -40,30 +43,26 @@ body {
 #prediction {
   position: relative;
   z-index: 2;
-  padding: 30px;
+  padding: 20px;
   text-align: center;
-  color: #fff;
-  font-size: 18px;
+  font-size: clamp(18px, 4vw, 22px); /* адаптивный размер текста */
   line-height: 1.4;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.9);
-
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100%;
-
-   opacity: 0;
-  animation: fadeIn 1.2s ease forwards;
 }
 
-@keyframes fadeIn {
-  to { opacity: 1; }
-}
-
+/* кнопка */
 button {
-  padding: 12px 20px;
-  font-size: 16px;
+  width: 100%;
+  max-width: 480px;
+  padding: 14px;
+  font-size: 18px;
   border-radius: 12px;
+  background: #ffdd55;
+  color: #000;
   border: none;
   cursor: pointer;
 }
