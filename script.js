@@ -56,10 +56,7 @@ btn.addEventListener("click", () => {
   const today = new Date().toLocaleDateString(); // например 10.02.2026
   const lastDate = localStorage.getItem("lastPredictionDate");
 
-  if (lastDate === today) {
-    alert("✨ Ты уже получал(а) предсказание сегодня.\nХочешь ещё? Поддержи проект 💛");
-    return;
-  }
+
 
   const randomIndex = Math.floor(Math.random() * predictions.length);
   predictionBlock.textContent = predictions[randomIndex];
