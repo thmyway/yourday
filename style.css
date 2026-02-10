@@ -30,7 +30,7 @@ body {
 }
 
 #prediction {
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease;
   min-height: 60px;
   position: relative;
   z-index: 1;
