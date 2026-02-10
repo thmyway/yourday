@@ -53,16 +53,40 @@ const btn = document.getElementById("btn");
 const predictionBlock = document.getElementById("prediction");
 
 btn.addEventListener("click", () => {
-  const today = new Date().toLocaleDateString(); // например 10.02.2026
-  const lastDate = localStorage.getItem("lastPredictionDate");
+  const today = new Date().toLocaleDateString();
+const lastDate = localStorage.getItem("lastPredictionDate");
+const extraUnlocked = localStorage.getItem("extraPredictionUnlocked");
 
-  if (lastDate === today) {
-    alert("✨ Ты уже получал(а) предсказание сегодня.\nХочешь ещё? Поддержи проект 💛");
-    return;
-  }
+if (lastDate === today && extraUnlocked !== "yes") {
+  alert("✨ Ты уже получил(а) предсказание сегодня.\nХочешь ещё — поддержи проект 💛");
+  return;
+}
+
+  if (extraUnlocked === "yes") {
+  localStorage.removeItem("extraPredictionUnlocked");
+}
 
   const randomIndex = Math.floor(Math.random() * predictions.length);
   predictionBlock.textContent = predictions[randomIndex];
 
   localStorage.setItem("lastPredictionDate", today);
 });
+
+const unlockBtn = document.getElementById("unlockBtn");
+const unlockInput = document.getElementById("unlockCode");
+
+// код, который ты даёшь после доната
+const DONATE_CODE = "свеча";
+
+unlockBtn.addEventListener("click", () => {
+  const enteredCode = unlockInput.value.trim();
+
+  if (enteredCode === DONATE_CODE) {
+    localStorage.setItem("extraPredictionUnlocked", "yes");
+    alert("✨ Спасибо за поддержку! Ещё одно предсказание доступно сегодня.");
+    unlockInput.value = "";
+  } else {
+    alert("Код неверный 🔒");
+  }
+});
+
