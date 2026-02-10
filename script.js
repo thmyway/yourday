@@ -62,10 +62,6 @@ if (lastDate === today && extraUnlocked !== "yes") {
   return;
 }
 
-  if (extraUnlocked === "yes") {
-  localStorage.removeItem("extraPredictionUnlocked");
-}
-
   const randomIndex = Math.floor(Math.random() * predictions.length);
   predictionBlock.textContent = predictions[randomIndex];
 
@@ -90,3 +86,6 @@ unlockBtn.addEventListener("click", () => {
   }
 });
 
+  if (extraUnlocked === "yes") {
+  localStorage.removeItem("extraPredictionUnlocked");
+}
