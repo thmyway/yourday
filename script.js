@@ -54,25 +54,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const btn = document.getElementById("btn");
   const predictionBlock = document.getElementById("prediction");
 
-  if (!btn || !predictionBlock) {
-    console.error("Кнопка или блок предсказания не найдены.");
-    return;
-  }
+  if (!btn || !predictionBlock) return;
 
   const today = new Date().toISOString().split("T")[0];
   const savedDate = localStorage.getItem("lastPredictionDate");
-  const savedPrediction = localStorage.getItem("todayPrediction");
+  const savedText = localStorage.getItem("lastPredictionText");
 
-  // 🔁 Если предсказание уже было сегодня — показываем его сразу
-  if (savedDate === today && savedPrediction) {
-    predictionBlock.textContent = savedPrediction;
+  // 👉 Если сегодня уже было предсказание — показываем его
+  if (savedDate === today && savedText) {
+    predictionBlock.textContent = savedText;
+    predictionBlock.classList.add("show"); // если есть анимация
   }
 
   btn.addEventListener("click", () => {
 
-    const lastDate = localStorage.getItem("lastPredictionDate");
-
-    if (lastDate === today) {
+    if (savedDate === today && savedText) {
       alert("✨ Ты уже получил(а) предсказание сегодня.\nПриходи за новым завтра 💛");
       return;
     }
@@ -80,10 +76,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const randomIndex = Math.floor(Math.random() * predictions.length);
     const newPrediction = predictions[randomIndex];
 
-    predictionBlock.textContent = newPrediction;
+    predictionBlock.classList.remove("show");
+
+    setTimeout(() => {
+      predictionBlock.textContent = newPrediction;
+      predictionBlock.classList.add("show");
+    }, 50);
 
     localStorage.setItem("lastPredictionDate", today);
-    localStorage.setItem("todayPrediction", newPrediction);
+    localStorage.setItem("lastPredictionText", newPrediction);
 
   });
 
