@@ -67,7 +67,28 @@ button {
   cursor: pointer;
   font-family: 'Cormorant Garamond', serif;
   font-weight: 600;
+  letter-spacing: 0.5px;  
+}
+
+.donate-btn {
+  display: block;
+  width: 100%;
+  max-width: 480px;
+  margin-top: 12px;
+  padding: 14px;
+  text-align: center;
+  border-radius: 14px;
+  background: rgba(255, 215, 100, 0.9);
+  color: #000;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 600;
+  font-family: 'Playfair Display', serif;
   letter-spacing: 0.5px;
+}
+
+button,
+.donate-btn {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -82,20 +103,6 @@ button:active,
   transform: translateY(0);
 }
 
-.donate-btn {
-  display: block;
-  width: 100%;
-  max-width: 480px;
-  margin-top: 12px;
-  padding: 14px;
-  text-align: center;
-  border-radius: 12px;
-  background: rgba(255, 215, 100, 0.9);
-  color: #000;
-  text-decoration: none;
-  font-size: 16px;
-  font-weight: 500;
-}
 
 #prediction {
   opacity: 0;
