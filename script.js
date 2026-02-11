@@ -51,24 +51,30 @@ document.addEventListener("DOMContentLoaded", () => {
     "Сегодня стоит довериться случаю."
   ];
 
-  const btn = document.getElementById("btn");
+   const btn = document.getElementById("btn");
   const predictionBlock = document.getElementById("prediction");
 
-  if (!btn || !predictionBlock) return;
+  if (!btn || !predictionBlock) {
+    console.log("Не найдена кнопка или блок");
+    return;
+  }
 
   const today = new Date().toISOString().split("T")[0];
+
+  // 👉 При загрузке страницы
   const savedDate = localStorage.getItem("lastPredictionDate");
   const savedText = localStorage.getItem("lastPredictionText");
 
-  // 👉 Если сегодня уже было предсказание — показываем его
   if (savedDate === today && savedText) {
     predictionBlock.textContent = savedText;
-    predictionBlock.classList.add("show"); // если есть анимация
+    predictionBlock.classList.add("show");
   }
 
   btn.addEventListener("click", () => {
 
-    if (savedDate === today && savedText) {
+    const currentSavedDate = localStorage.getItem("lastPredictionDate");
+
+    if (currentSavedDate === today) {
       alert("✨ Ты уже получил(а) предсказание сегодня.\nПриходи за новым завтра 💛");
       return;
     }
