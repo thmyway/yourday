@@ -55,13 +55,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const predictionBlock = document.getElementById("prediction");
 
   if (!btn || !predictionBlock) {
-    console.error("Кнопка или блок предсказания не найдены в HTML.");
+    console.error("Кнопка или блок предсказания не найдены.");
     return;
+  }
+
+  const today = new Date().toISOString().split("T")[0];
+  const savedDate = localStorage.getItem("lastPredictionDate");
+  const savedPrediction = localStorage.getItem("todayPrediction");
+
+  // 🔁 Если предсказание уже было сегодня — показываем его сразу
+  if (savedDate === today && savedPrediction) {
+    predictionBlock.textContent = savedPrediction;
   }
 
   btn.addEventListener("click", () => {
 
-    const today = new Date().toISOString().split("T")[0];
     const lastDate = localStorage.getItem("lastPredictionDate");
 
     if (lastDate === today) {
@@ -70,17 +78,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const randomIndex = Math.floor(Math.random() * predictions.length);
+    const newPrediction = predictions[randomIndex];
 
-    // убираем анимацию, если была
-    predictionBlock.classList.remove("show");
-
-    // небольшая задержка для перезапуска анимации
-    setTimeout(() => {
-      predictionBlock.textContent = predictions[randomIndex];
-      predictionBlock.classList.add("show");
-    }, 50);
+    predictionBlock.textContent = newPrediction;
 
     localStorage.setItem("lastPredictionDate", today);
+    localStorage.setItem("todayPrediction", newPrediction);
 
   });
 
