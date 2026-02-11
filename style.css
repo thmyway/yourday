@@ -106,3 +106,14 @@ button {
   font-size: 14px;
   cursor: pointer;
 }
+
+#prediction {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+#prediction.show {
+  opacity: 1;
+  transform: translateY(0);
+}
