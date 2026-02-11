@@ -61,7 +61,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   btn.addEventListener("click", () => {
 
-    // стабильный формат даты
     const today = new Date().toISOString().split("T")[0];
     const lastDate = localStorage.getItem("lastPredictionDate");
 
@@ -71,7 +70,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const randomIndex = Math.floor(Math.random() * predictions.length);
-    predictionBlock.textContent = predictions[randomIndex];
+
+    // убираем анимацию, если была
+    predictionBlock.classList.remove("show");
+
+    // небольшая задержка для перезапуска анимации
+    setTimeout(() => {
+      predictionBlock.textContent = predictions[randomIndex];
+      predictionBlock.classList.add("show");
+    }, 50);
 
     localStorage.setItem("lastPredictionDate", today);
 
