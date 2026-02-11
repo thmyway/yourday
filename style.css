@@ -59,7 +59,7 @@ button {
   width: 100%;
   max-width: 480px;
   padding: 14px;
-  font-size: 18px;
+  font-size: 22px;
   border-radius: 12px;
   background: #ffdd55;
   color: #000;
@@ -80,31 +80,6 @@ button {
   text-decoration: none;
   font-size: 16px;
   font-weight: 500;
-}
-
-.unlock {
-  width: 100%;
-  max-width: 480px;
-  margin-top: 12px;
-  display: flex;
-  gap: 8px;
-}
-
-.unlock input {
-  flex: 1;
-  padding: 12px;
-  border-radius: 10px;
-  border: none;
-  font-size: 16px;
-}
-
-.unlock button {
-  padding: 12px;
-  border-radius: 10px;
-  border: none;
-  background: #9be7ff;
-  font-size: 14px;
-  cursor: pointer;
 }
 
 #prediction {
