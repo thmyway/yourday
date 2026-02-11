@@ -55,10 +55,9 @@ const predictionBlock = document.getElementById("prediction");
 btn.addEventListener("click", () => {
   const today = new Date().toLocaleDateString();
   const lastDate = localStorage.getItem("lastPredictionDate");
-  const extraUnlocked = localStorage.getItem("extraPredictionUnlocked");
-
-  // если бесплатная уже была и доп. карта не разблокирована
-  if (lastDate === today && extraUnlocked !== "yes") {
+  
+  // если бесплатная уже была 
+  if (lastDate === today) {
     alert("✨ Ты уже получил(а) предсказание сегодня.\nПриходи за новым завтра 💛");
     return;
   }
@@ -67,32 +66,8 @@ btn.addEventListener("click", () => {
   const randomIndex = Math.floor(Math.random() * predictions.length);
   predictionBlock.textContent = predictions[randomIndex];
 
-  // если это была ПЕРВАЯ карта сегодня
+  // если была карта сегодня
   if (lastDate !== today) {
     localStorage.setItem("lastPredictionDate", today);
   } 
-  // если это была ВТОРАЯ карта (после доната)
-  else if (extraUnlocked === "yes") {
-    localStorage.removeItem("extraPredictionUnlocked");
-  }
-});
-
-// ---------- разблокировка после доната ----------
-
-const unlockBtn = document.getElementById("unlockBtn");
-const unlockInput = document.getElementById("unlockCode");
-
-// код после доната
-const DONATE_CODE = "свеча";
-
-unlockBtn.addEventListener("click", () => {
-  const enteredCode = unlockInput.value.trim();
-
-  if (enteredCode === DONATE_CODE) {
-    localStorage.setItem("extraPredictionUnlocked", "yes");
-    alert("✨ Спасибо за поддержку! Ещё одно предсказание доступно сегодня.");
-    unlockInput.value = "";
-  } else {
-    alert("Код неверный 🔒");
-  }
-});
+  
