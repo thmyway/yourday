@@ -51,33 +51,60 @@ document.addEventListener("DOMContentLoaded", () => {
     "Сегодня стоит довериться случаю."
   ];
 
-  const btn = document.getElementById("btn");
+const btn = document.getElementById("btn");
   const predictionBlock = document.getElementById("prediction");
+  const timerBlock = document.getElementById("timer");
 
-  if (!btn || !predictionBlock) return;
+  if (!btn || !predictionBlock || !timerBlock) return;
 
-  const THREE_HOURS = 3 * 60 * 60 * 1000; // 3 часа в миллисекундах
-  const now = Date.now();
+  const THREE_HOURS = 3 * 60 * 60 * 1000;
+  let countdownInterval;
+
+  function startTimer(savedTime) {
+
+    function updateTimer() {
+      const now = Date.now();
+      const remaining = THREE_HOURS - (now - savedTime);
+
+      if (remaining <= 0) {
+        clearInterval(countdownInterval);
+        timerBlock.textContent = "✨ Можно получить новое предсказание";
+        localStorage.removeItem("predictionTime");
+        localStorage.removeItem("predictionText");
+        return;
+      }
+
+      const hours = Math.floor(remaining / (1000 * 60 * 60));
+      const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+
+      timerBlock.textContent =
+        `Новое предсказание через ${hours}ч ${minutes}м ${seconds}с`;
+    }
+
+    updateTimer();
+    countdownInterval = setInterval(updateTimer, 1000);
+  }
 
   const savedTime = localStorage.getItem("predictionTime");
   const savedText = localStorage.getItem("predictionText");
 
-  // 👉 Если прошло меньше 3 часов — показываем сохранённое
-  if (savedTime && savedText && (now - savedTime < THREE_HOURS)) {
-    predictionBlock.textContent = savedText;
-    predictionBlock.classList.add("show");
+  if (savedTime && savedText) {
+    const timeNumber = Number(savedTime);
+
+    if (Date.now() - timeNumber < THREE_HOURS) {
+      predictionBlock.textContent = savedText;
+      predictionBlock.classList.add("show");
+      startTimer(timeNumber);
+    }
   }
 
   btn.addEventListener("click", () => {
 
     const currentSavedTime = localStorage.getItem("predictionTime");
 
-    if (currentSavedTime && (Date.now() - currentSavedTime < THREE_HOURS)) {
-
-      const remaining = THREE_HOURS - (Date.now() - currentSavedTime);
-      const minutesLeft = Math.ceil(remaining / 60000);
-
-      alert(`✨ Новое предсказание будет доступно через ${minutesLeft} мин.`);
+    if (currentSavedTime &&
+        (Date.now() - currentSavedTime < THREE_HOURS)) {
       return;
     }
 
@@ -91,9 +118,11 @@ document.addEventListener("DOMContentLoaded", () => {
       predictionBlock.classList.add("show");
     }, 50);
 
-    localStorage.setItem("predictionTime", Date.now());
+    const now = Date.now();
+    localStorage.setItem("predictionTime", now);
     localStorage.setItem("predictionText", newPrediction);
 
+    startTimer(now);
   });
 
 });
