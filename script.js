@@ -51,31 +51,33 @@ document.addEventListener("DOMContentLoaded", () => {
     "Сегодня стоит довериться случаю."
   ];
 
-   const btn = document.getElementById("btn");
+  const btn = document.getElementById("btn");
   const predictionBlock = document.getElementById("prediction");
 
-  if (!btn || !predictionBlock) {
-    console.log("Не найдена кнопка или блок");
-    return;
-  }
+  if (!btn || !predictionBlock) return;
 
-  const today = new Date().toISOString().split("T")[0];
+  const THREE_HOURS = 3 * 60 * 60 * 1000; // 3 часа в миллисекундах
+  const now = Date.now();
 
-  // 👉 При загрузке страницы
-  const savedDate = localStorage.getItem("lastPredictionDate");
-  const savedText = localStorage.getItem("lastPredictionText");
+  const savedTime = localStorage.getItem("predictionTime");
+  const savedText = localStorage.getItem("predictionText");
 
-  if (savedDate === today && savedText) {
+  // 👉 Если прошло меньше 3 часов — показываем сохранённое
+  if (savedTime && savedText && (now - savedTime < THREE_HOURS)) {
     predictionBlock.textContent = savedText;
     predictionBlock.classList.add("show");
   }
 
   btn.addEventListener("click", () => {
 
-    const currentSavedDate = localStorage.getItem("lastPredictionDate");
+    const currentSavedTime = localStorage.getItem("predictionTime");
 
-    if (currentSavedDate === today) {
-      alert("✨ Ты уже получил(а) предсказание сегодня.\nПриходи за новым завтра 💛");
+    if (currentSavedTime && (Date.now() - currentSavedTime < THREE_HOURS)) {
+
+      const remaining = THREE_HOURS - (Date.now() - currentSavedTime);
+      const minutesLeft = Math.ceil(remaining / 60000);
+
+      alert(`✨ Новое предсказание будет доступно через ${minutesLeft} мин.`);
       return;
     }
 
@@ -89,8 +91,8 @@ document.addEventListener("DOMContentLoaded", () => {
       predictionBlock.classList.add("show");
     }, 50);
 
-    localStorage.setItem("lastPredictionDate", today);
-    localStorage.setItem("lastPredictionText", newPrediction);
+    localStorage.setItem("predictionTime", Date.now());
+    localStorage.setItem("predictionText", newPrediction);
 
   });
 
