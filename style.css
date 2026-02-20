@@ -116,8 +116,8 @@ button:active,
 }
 
 #timer {
-  margin: 5px 5px;
-  font-size: 16px;
+  margin: 5px 0px;
+  font-size: 18px;
   font-family: 'Playfair Display', serif;
   opacity: 0.8;
   transition: opacity 0.3s ease;
